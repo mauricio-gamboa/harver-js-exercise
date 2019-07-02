@@ -78,3 +78,63 @@ async function printRandomWordsFizzBuzzAsync(number) {
 
 // Uncomment to run
 // printRandomWordsFizzBuzzAsync(100);
+
+//-------- Task #4 -------------------------------------
+
+function printRandomWordsFizzBuzzErrorHandling(number) {
+    for (let i = 1; i <= number; i++) {
+        const isFizzBuzz = (i % 3 === 0) && (i % 5 === 0);
+        const isFizz = i % 3 === 0;
+        const isFuzz = i % 5 === 0;
+
+        let text;
+
+        if (isFizzBuzz) {
+            text = 'FizzBuzz';
+        } else if (isFizz) {
+            text = 'Fizz';
+        } else if (isFuzz) {
+            text = `Fuzz`;
+        } else {
+            try {
+                text = getRandomWordSync({ withErrors: true });
+            } catch (error) {
+                text = "It shouldn't break anything!";
+            }
+        }
+
+        console.log(`${i}. ${text}`);
+    }
+}
+
+// Uncomment to run
+// printRandomWordsFizzBuzzErrorHandling(100);
+
+async function printRandomWordsFizzBuzzAsyncErrorHandling(number) {
+    for (let i = 1; i <= number; i++) {
+        const isFizzBuzz = (i % 3 === 0) && (i % 5 === 0);
+        const isFizz = i % 3 === 0;
+        const isFuzz = i % 5 === 0;
+
+        let text;
+
+        if (isFizzBuzz) {
+            text = 'FizzBuzz';
+        } else if (isFizz) {
+            text = 'Fizz';
+        } else if (isFuzz) {
+            text = `Fuzz`;
+        } else {
+            try {
+                text = await getRandomWord({ withErrors: true });
+            } catch (error) {
+                text = "It shouldn't break anything!";
+            }
+        }
+
+        console.log(`${i}. ${text}`);
+    }
+}
+
+// Uncomment to run
+// printRandomWordsFizzBuzzAsyncErrorHandling(100);
