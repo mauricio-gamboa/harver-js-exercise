@@ -4,6 +4,28 @@ console.log('It works!');
 
 // YOUR CODE HERE
 
+//-------- Helper Functions ----------------------------
+
+function getFizzBuzz(index, callback) {
+    const isFizzBuzz = (index % 3 === 0) && (index % 5 === 0);
+    const isFizz = index % 3 === 0;
+    const isFuzz = index % 5 === 0;
+
+    let text;
+
+    if (isFizzBuzz) {
+        text = 'FizzBuzz';
+    } else if (isFizz) {
+        text = 'Fizz';
+    } else if (isFuzz) {
+        text = `Fuzz`;
+    } else {
+        text = callback();
+    }
+
+    return text;
+}
+
 //-------- Task #1 -------------------------------------
 
 function printRandomWords(number) {
@@ -19,22 +41,7 @@ function printRandomWords(number) {
 
 function printRandomWordsFizzBuzz(number) {
     for (let i = 1; i <= number; i++) {
-        const isFizzBuzz = (i % 3 === 0) && (i % 5 === 0);
-        const isFizz = i % 3 === 0;
-        const isFuzz = i % 5 === 0;
-
-        let text;
-
-        if (isFizzBuzz) {
-            text = 'FizzBuzz';
-        } else if (isFizz) {
-            text = 'Fizz';
-        } else if (isFuzz) {
-            text = `Fuzz`;
-        } else {
-            text = getRandomWordSync();
-        }
-
+        const text = getFizzBuzz(i, getRandomWordSync);
         console.log(`${i}. ${text}`);
     }
 }
@@ -56,22 +63,7 @@ async function printRandomWordsAsync(number) {
 
 async function printRandomWordsFizzBuzzAsync(number) {
     for (let i = 1; i <= number; i++) {
-        const isFizzBuzz = (i % 3 === 0) && (i % 5 === 0);
-        const isFizz = i % 3 === 0;
-        const isFuzz = i % 5 === 0;
-
-        let text;
-
-        if (isFizzBuzz) {
-            text = 'FizzBuzz';
-        } else if (isFizz) {
-            text = 'Fizz';
-        } else if (isFuzz) {
-            text = `Fuzz`;
-        } else {
-            text = await getRandomWord();
-        }
-
+        const text = await getFizzBuzz(i, getRandomWord);
         console.log(`${i}. ${text}`);
     }
 }
@@ -82,27 +74,16 @@ async function printRandomWordsFizzBuzzAsync(number) {
 //-------- Task #4 -------------------------------------
 
 function printRandomWordsFizzBuzzErrorHandling(number) {
-    for (let i = 1; i <= number; i++) {
-        const isFizzBuzz = (i % 3 === 0) && (i % 5 === 0);
-        const isFizz = i % 3 === 0;
-        const isFuzz = i % 5 === 0;
-
-        let text;
-
-        if (isFizzBuzz) {
-            text = 'FizzBuzz';
-        } else if (isFizz) {
-            text = 'Fizz';
-        } else if (isFuzz) {
-            text = `Fuzz`;
-        } else {
-            try {
-                text = getRandomWordSync({ withErrors: true });
-            } catch (error) {
-                text = "It shouldn't break anything!";
-            }
+    const withErrorHandling = () => {
+        try {
+            return getRandomWordSync({ withErrors: true });
+        } catch (error) {
+            return "It shouldn't break anything!";
         }
+    };
 
+    for (let i = 1; i <= number; i++) {
+        const text = getFizzBuzz(i, withErrorHandling);
         console.log(`${i}. ${text}`);
     }
 }
@@ -111,27 +92,16 @@ function printRandomWordsFizzBuzzErrorHandling(number) {
 // printRandomWordsFizzBuzzErrorHandling(100);
 
 async function printRandomWordsFizzBuzzAsyncErrorHandling(number) {
-    for (let i = 1; i <= number; i++) {
-        const isFizzBuzz = (i % 3 === 0) && (i % 5 === 0);
-        const isFizz = i % 3 === 0;
-        const isFuzz = i % 5 === 0;
-
-        let text;
-
-        if (isFizzBuzz) {
-            text = 'FizzBuzz';
-        } else if (isFizz) {
-            text = 'Fizz';
-        } else if (isFuzz) {
-            text = `Fuzz`;
-        } else {
-            try {
-                text = await getRandomWord({ withErrors: true });
-            } catch (error) {
-                text = "It shouldn't break anything!";
-            }
+    const withErrorHandling = async () => {
+        try {
+            return await getRandomWord({ withErrors: true });
+        } catch (error) {
+            return "It shouldn't break anything!";
         }
+    };
 
+    for (let i = 1; i <= number; i++) {
+        const text = await getFizzBuzz(i, withErrorHandling);
         console.log(`${i}. ${text}`);
     }
 }
