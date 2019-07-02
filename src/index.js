@@ -117,8 +117,6 @@ for (let i = 1; i <= 100; i++) {
     dataToSend.push(`${i}. ${getFizzBuzz(i, getRandomWordSync)}`);
 }
 
-console.log(JSON.stringify(dataToSend));
-
 // Frontend developers
 
 function postData(url = '', data = {}) {
