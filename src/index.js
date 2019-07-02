@@ -108,3 +108,37 @@ async function printRandomWordsFizzBuzzAsyncErrorHandling(number) {
 
 // Uncomment to run
 // printRandomWordsFizzBuzzAsyncErrorHandling(100);
+
+//-------- Task #5 -------------------------------------
+
+const dataToSend = [];
+
+for (let i = 1; i <= 100; i++) {
+    dataToSend.push(`${i}. ${getFizzBuzz(i, getRandomWordSync)}`);
+}
+
+console.log(JSON.stringify(dataToSend));
+
+// Frontend developers
+
+function postData(url = '', data = {}) {
+    return fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+    }).then(response => response.json());
+}
+
+// This is how you would call it in a real life scenario
+// postData('http://example.com/test', { data: dataToSend })
+//     .then(data => console.log(JSON.stringify(data)))
+//     .catch(error => console.error(error));
+
+// Nodejs developers
+
+require('fs')
+    .writeFile(
+        './src/fizzfuzz.json',
+        JSON.stringify(dataToSend),
+        error => console.error(error)
+    );
